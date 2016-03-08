@@ -1,11 +1,15 @@
 import android.database.Cursor;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.util.SortedListAdapterCallback;
 import android.view.View;
 import java.util.HashSet;
 import java.util.Set;
 
 
+/** https://github.com/qvga/RecyclerViewCursorAdapter */
 public abstract class RecyclerViewCursorAdapter<T, VH extends RecyclerViewCursorAdapter.ViewHolder> extends RecyclerView.Adapter<VH> {
 
     private SortedList<T> sortedList;
@@ -19,6 +23,30 @@ public abstract class RecyclerViewCursorAdapter<T, VH extends RecyclerViewCursor
 
     public RecyclerViewCursorAdapter() {
         super();
+    }
+
+    /** If you just need a plain sortedlist */
+    public RecyclerViewCursorAdapter(@NonNull Class<T> klass, @Nullable Cursor cursor) {
+
+        setSortedList(new SortedList<>(klass, new SortedListAdapterCallback<T>(this) {
+            @Override
+            public int compare(T o1, T o2) {
+                return 0;
+            }
+
+            @Override
+            public boolean areContentsTheSame(T oldItem, T newItem) {
+                return false;
+            }
+
+            @Override
+            public boolean areItemsTheSame(T item1, T item2) {
+                return false;
+            }
+        }));
+
+        setCursor(cursor);
+
     }
 
 
