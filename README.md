@@ -1,64 +1,104 @@
 # RecyclerViewCursorAdapter
 
 
-## Usage:
-
-```java
-
-    void setupRecyclerView(RecyclerView recyclerView) {
-
-        Cursor cursor = db.query("table",null,null,null,null,null,null);
-        FooAdapter adapter = new FooAdapter(Foo.class, cursor);
-        recyclerView.setAdapter(adapter);
+A CursorAdapter for the RecyclerView
 
 
+
+## Example:
+
+### Listing fruits in a fruitbasket using SQLiteCursorAdapter and RecyclerView
+
+
+Create a class that represents the Fruit.
+
+
+```
+    class Fruit {
+        public String title;
+        public String description;
     }
+    
+```
 
 
-    class FooAdapter extends RecyclerViewCursorAdapter<Foo, FooAdapter.ViewHolder> {
+
+
+
+Implement the RecyclerviewCursorAdapter and the RecyclerViewCursorAdapter.ViewHolder as per the ViewHolder pattern
+
+
+```
+    class FruitBasketAdapter extends RecyclerViewCursorAdapter<Fruit, FruitBasketAdapter.ViewHolder> {
+
 
 
         class ViewHolder extends RecyclerViewCursorAdapter.ViewHolder{
-            public TextView textView;
+        
+            public TextView titleTextView;
+            public TextView descriptionTextView;
+            
             public ViewHolder(View itemView) {
                 super(itemView);
-                textView = (TextView) itemView.findViewById(R.id.textView);
+                titleTextView = (TextView) itemView.findViewById(R.id.textView1);
+                descriptionTextView = (TextView) itemView.findViewById(R.id.textView2);
             }
         }
 
-        public FooAdapter(@NonNull Class<Foo> klass, @Nullable Cursor cursor) {
+
+
+
+        public FruitBasketAdapter(@NonNull Class<Fruit> klass, @Nullable Cursor cursor) {
             super(klass, cursor);
         }
 
 
         @Override
-        Foo fromCursorRow(Cursor cursor) {
+        Fruit fromCursorRow(Cursor cursor) {
 
-            Foo foo = new Foo();
+            Fruit Fruit = new Fruit();
 
-            foo.title = cursor.getString(cursor.getColumnIndex("title"));
+            Fruit.title = cursor.getString(cursor.getColumnIndex("title"));
+            Fruit.description = cursor.getString(cursor.getColumnIndex("description"));
 
-            return foo;
+            return Fruit;
 
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(getLayoutInflater().inflate(R.layout.listitem_foo, parent, false));
+            return new ViewHolder(getLayoutInflater().inflate(R.layout.listitem_Fruit, parent, false));
         }
+
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.textView.setText(getItem(position).title);
+        
+            holder.titleTextView.setText(getItem(position).title);
+            holder.descriptionTextView.setText(getItem(position).description);
+            
         }
 
 
     }
 
+``` 
 
 
-    class Foo {
-        public String title;
+
+
+Load data from SQLite or elsewhere, instantiate the adapter and attach it to the recyclerview.
+
+```java
+
+    void setupRecyclerView(RecyclerView recyclerView) {
+
+        Cursor cursor = db.query("table", null, null, null, null, null, null);
+        FruitBasketAdapter adapter = new FruitBasketAdapter(Fruit.class, cursor);
+        recyclerView.setAdapter(adapter);
+
+
     }
-    
+
 ```
+
