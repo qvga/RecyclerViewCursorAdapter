@@ -1,7 +1,7 @@
 # RecyclerViewCursorAdapter
 
 
-A CursorAdapter for the RecyclerView
+A CursorAdapter for the RecyclerView with a SortedList backend.
 
 
 
