@@ -85,9 +85,10 @@ Implement the RecyclerviewCursorAdapter and the RecyclerViewCursorAdapter.ViewHo
 ``` 
 
 
-
+#### Cursors
 
 Load data from SQLite or elsewhere, instantiate the adapter and attach it to the recyclerview.
+
 
 ```java
 
@@ -97,8 +98,28 @@ Load data from SQLite or elsewhere, instantiate the adapter and attach it to the
         FruitBasketAdapter adapter = new FruitBasketAdapter(Fruit.class, cursor);
         recyclerView.setAdapter(adapter);
 
-
     }
 
+```
+
+
+#### CursorLoader
+
+Or if you are using CursorLoader, hook up the adapter with the Loader callbacks
+
+
+```
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(getActivity(), FRUITPROVIDER, null, null, null, null);
+    }
+    
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        adapter.switchCursor(data);
+    }
+    
 ```
 
