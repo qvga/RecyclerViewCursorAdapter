@@ -7,7 +7,7 @@ A CursorAdapter for the RecyclerView
 
 ## Example:
 
-### Listing fruits in a fruitbasket from SQLite using CursorAdapter and RecyclerView
+### Listing fruits in a fruitbasket using CursorAdapter and RecyclerView
 
 
 Create a class that represents the Fruit.
